@@ -12,3 +12,6 @@ Folder structure:
 All variables are defined by default.
 No changes, except probably python folder path, should be made.
 
+Changes on the repository will be automaticaly deployed by Github Actions on AWS cloud.
+
+Final working verificantions can be made using terraform output "base_url"/hello 
