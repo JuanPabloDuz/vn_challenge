@@ -14,4 +14,5 @@ No changes, except probably python folder path, should be made.
 
 Changes on the repository will be automaticaly deployed by Github Actions on AWS cloud.
 
-Final working verificantions can be made using terraform output "base_url"/hello 
+Final working verificantions can be made using terraform output "base_url" using "/hello" as a route:
+i.e: "https://xp9ilzo1zg.execute-api.us-east-1.amazonaws.com/serverless_lambda_stage/hello" 
