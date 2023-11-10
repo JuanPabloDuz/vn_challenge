@@ -1,18 +1,30 @@
 # changes on code will deploy on aws, ussing terraform apply -auto-approve command
-name: Deploy API
-
+name: 'Terraform Plan and Apply'
 on:
   push:
     branches:
       - main
+  pull_request:
 
 jobs:
-  deploy:
+  terraform:
+    name: 'Terraform'
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: hashicorp/terraform@v1.2.0
-        with:
-          working-directory: .
-          command: apply
-          args: -auto-approve
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan
+        run: terraform plan -no-color
+        continue-on-error: true
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -no-color
+        if: github.ref == 'refs/heads/main'
