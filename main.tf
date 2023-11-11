@@ -57,7 +57,7 @@ resource "aws_s3_object" "lambda_hello_world" {
 
   etag = filemd5(data.archive_file.lambda_hello_world.output_path)
   depends_on = [
-    data.archive_file.lambda_hello_world
+    data.archive_file.lambda_hello_world, null_resource.python_files
   ]
 }
 
