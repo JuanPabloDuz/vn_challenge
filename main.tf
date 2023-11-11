@@ -35,7 +35,7 @@ resource "null_resource" "python_files" {
     command = "mkdir -p py_code"
   }
   provisioner "local-exec" {
-    command = "curl -o ./py_code/api-publico.py https://github.com/JuanPabloDuz/devops-ejercicio/blob/main/api-publico.py"
+    command = "curl -o ./py_code/api-publico.py https://raw.githubusercontent.com/JuanPabloDuz/devops-ejercicio/main/api-publico.py"
   }
 }
 
