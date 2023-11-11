@@ -6,6 +6,6 @@ variable "aws_region" {
 }
 
 variable "github_repository_url" {
-  type = string
+  type    = string
   default = "https://github.com/JuanPabloDuz/devops-ejercicio.git"
 }

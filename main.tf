@@ -1,5 +1,5 @@
 provider "aws" {
-  region = var.aws_region
+  region                   = var.aws_region
   shared_credentials_files = ["/home/juan/.aws/credentials"]
 }
 
@@ -45,7 +45,7 @@ data "archive_file" "lambda_hello_world" {
 
   source_dir  = "${path.module}/py_code"
   output_path = "${path.module}/hello-world.zip"
-  depends_on = [ null_resource.python_files ]
+  depends_on  = [null_resource.python_files]
 }
 
 # creates S3 object from the zip file sss 
@@ -72,7 +72,7 @@ resource "aws_lambda_function" "hello_world" {
   handler = "api-publico.lambda_handler"
 
   source_code_hash = data.archive_file.lambda_hello_world.output_base64sha256
-  role = aws_iam_role.lambda_exec.arn
+  role             = aws_iam_role.lambda_exec.arn
 }
 # creates cloud watch log group to store logs from lamda execution
 resource "aws_cloudwatch_log_group" "hello_world" {
