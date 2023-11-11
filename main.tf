@@ -29,7 +29,7 @@ resource "aws_s3_bucket_acl" "lambda_bucket" {
   bucket = aws_s3_bucket.lambda_bucket.id
   acl    = "private"
 }
-# downloads python code
+# downloads python code and creates folder
 resource "null_resource" "python_files" {
   provisioner "local-exec" {
     command = "mkdir -p py_code"
