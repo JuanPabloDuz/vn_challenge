@@ -29,13 +29,23 @@ resource "aws_s3_bucket_acl" "lambda_bucket" {
   bucket = aws_s3_bucket.lambda_bucket.id
   acl    = "private"
 }
+# downloads python code
+resource "null_resource" "python_files" {
+  provisioner "local-exec" {
+    command = "mkdir -p py_code"
+  }
+  provisioner "local-exec" {
+    command = "curl -O https://github.com/JuanPabloDuz/devops-ejercicio.git -o /py_code/"
+  }
+}
 
 # creates zip file from the python code repository folder 
 data "archive_file" "lambda_hello_world" {
   type = "zip"
 
-  source_dir  = "${path.module}/../devops-ejercicio"
+  source_dir  = "${path.module}/py_code"
   output_path = "${path.module}/hello-world.zip"
+  depends_on = [ null_resource.python_files ]
 }
 
 # creates S3 object from zip file 
