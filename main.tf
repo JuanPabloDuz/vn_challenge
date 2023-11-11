@@ -73,7 +73,7 @@ resource "aws_lambda_function" "hello_world" {
 
   source_code_hash = data.archive_file.lambda_hello_world.output_base64sha256
   role             = aws_iam_role.lambda_exec.arn
-  depends_on = [ aws_s3_object.lambda_hello_world ]
+  depends_on       = [aws_s3_object.lambda_hello_world]
 }
 # creates cloud watch log group to store logs from lamda execution
 resource "aws_cloudwatch_log_group" "hello_world" {
