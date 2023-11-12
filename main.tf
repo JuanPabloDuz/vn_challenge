@@ -48,7 +48,7 @@ data "archive_file" "lambda_hello_world" {
   depends_on  = [null_resource.python_files]
 }
 
-# creates S3 object from the zip file sss 
+# creates S3 object from the zip file  
 resource "aws_s3_object" "lambda_hello_world" {
   bucket = aws_s3_bucket.lambda_bucket.id
 
