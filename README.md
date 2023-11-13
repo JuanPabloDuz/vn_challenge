@@ -14,4 +14,6 @@ i.e:
 
 Changes on python repository triggers lambda function update.
 
-Terraform state is saved on S3, so updates can be made, and enabling a job to destroy.
+Terraform state is saved on S3, so updates can be made.
+
+A job to automated destroy of terraform infra is added to actions separately.
