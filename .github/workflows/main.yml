@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - main
-
+repositories:
+      - [owner]/[other-repository]
 jobs:
   terraform:
     name: 'Terraform'
@@ -49,5 +50,8 @@ jobs:
     # On push to "main", build or change infrastructure according to Terraform configuration files
     - name: Terraform Apply
       run: terraform apply -auto-approve -no-color
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      if: |
+        (github.ref == 'refs/heads/main' && github.event_name == 'push') ||
+        (github.event.client_payload.repository.full_name == 'JuanPabloDuz/devops-ejercicio' &&
+         github.event.client_payload.ref == 'main') 
 

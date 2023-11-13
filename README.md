@@ -11,3 +11,5 @@ Final working verificantions can be made using terraform output "base_url" using
 i.e: 
 
     "https://xp9ilzo1zg.execute-api.us-east-1.amazonaws.com/serverless_lambda_stage/hello" 
+
+Changes on python repository triggers lambda function update.
