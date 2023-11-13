@@ -1,0 +1,57 @@
+name: Destroy Infrastructure
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm-destroy:
+        description: 'Confirm infrastructure destruction'
+        required: true
+        default: 'false'
+
+jobs:
+  destroy-infra:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.15.0 # Set your desired Terraform version
+          
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1 
+          
+      - name: Destroy Infrastructure
+        run: |
+          terraform init -backend-config="bucket=my-terraform-state-bucket-321654987" \
+                         -backend-config="key=states/terraform.tfstate" \
+                         -backend-config="region=us-east-1"
+          
+          terraform destroy -auto-approve
+
+  # This job will only run when confirm-destroy is set to 'true'
+  confirm-destroy:
+    needs: destroy-infra
+    runs-on: ubuntu-latest
+    if: github.event.inputs.confirm-destroy == 'true'
+
+    steps:
+      - name: Confirm Destruction
+        run: echo "Infrastructure destruction confirmed. Proceeding with destruction."
+
+    # Generates an execution plan for Terraform
+    - name: Terraform Plan
+      run: terraform plan -input=false
+
+      # On push to "main", build or change infrastructure according to Terraform configuration files
+      # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
+      run: terraform apply -auto-approve -input=false
